@@ -7,9 +7,10 @@ ClientUI/Properties
 ClientUI/ClientUI.csproj.user
 ClientUI/FormWithResults.resx
 
-CreateNewSensor/bin
-CreateNewSensor/obj
-CreateNewSensor/Properties
+AdministratorUI/bin
+AdministratorUI/obj
+AdministratorUI/Properties
+AdministratorUI/MainForm.resx
 
 RandomCutForest/bin
 RandomCutForest/obj

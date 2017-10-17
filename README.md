@@ -1,7 +1,7 @@
 # Bachelor work to KPI.
 
 * ClientUI: Windows Forms app - displays graphs of sensors data and anomalyes. 
-* CreateNewSensor: Console app - register new sensor and send training data to service.
+* AdministratorUI: Windows Forms app - register new sensor, send training data to service, delete sensors.
 * RandomCutForest: Class Library - main algorithm that searches for anomalies.
 * RandomCutForestTests: Unit test for RandomCutForest.
 * Sensor: Console app - Simulates the sensor and sends data to the service.

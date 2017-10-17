@@ -106,6 +106,28 @@ namespace SensorService
             return true;
         }
 
+        public bool DeleteSensor(string id)
+        {
+            var intId = Int32.Parse(id);
+            if(forestDict.ContainsKey(intId) && dataMakerDict.ContainsKey(intId))
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    var command = new SqlCommand($"delete from SensorsData where sensor_id={intId}", connection);
+                    command.ExecuteNonQuery();
+                }
+
+                forestDict.TryRemove(intId, out Forest s);
+                dataMakerDict.TryRemove(intId, out DataMaker d);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public IEnumerable<SensorInfo> GetResultsAfter(string sensorId, long time)
         {
             var t = new DateTime(time).ToString(dateTimeFormat);
@@ -127,6 +149,11 @@ namespace SensorService
                        TimeTicks = ((DateTime)c["time"]).Ticks
                    };
         }
-        
+
+        public IEnumerable<int> GetSensorsIdList()
+        {
+            return forestDict.Keys;
+        }
+
     }
 }
