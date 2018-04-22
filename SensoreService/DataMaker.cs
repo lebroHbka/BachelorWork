@@ -9,6 +9,8 @@ namespace SensorService
 {
     class DataMaker
     {
+        public static int Shingle { get { return shingle; } set { shingle = value; } }
+
         static decimal step = 0.001M;
         static int shingle = 3;
 

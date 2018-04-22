@@ -19,14 +19,19 @@ namespace TestGraph
             public long TimeTicks { get; set; }
         }
 
+        #region Vars
+
         long lastTimeTick;
 
         int currentHeight;
         int currentWidth;
 
         int updateInterval;
-        int graphInterval = 60;
+        int graphInterval = 30000;
 
+        #endregion
+
+        #region Constructor
 
         public FormWithResults()
         {
@@ -35,37 +40,22 @@ namespace TestGraph
             updateInterval = Int32.Parse(ConfigurationManager.AppSettings.GetValues("UpdateDelay")[0]);
             Resize += ResizeHandler;
             DataSchedule.Series["Data_series"].XValueType = ChartValueType.DateTime;
-            DataSchedule.ChartAreas[0].AxisX.LabelStyle.Format = "dd MMM HH:mm:ss";
+            DataSchedule.ChartAreas[0].AxisX.LabelStyle.Format = "dd MM HH:mm:ss";
 
             AnomalySchedule.Series["Anomaly_series"].XValueType = ChartValueType.DateTime;
-            AnomalySchedule.ChartAreas[0].AxisX.LabelStyle.Format = "dd MMM HH:mm:ss";
+            AnomalySchedule.ChartAreas[0].AxisX.LabelStyle.Format = "dd MM HH:mm:ss";
         }
+
+        #endregion
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            SetChartsSettings();
             currentHeight = Height;
             currentWidth = Width;
             UpdateFromServiceTimer.Interval = updateInterval;
             UpdateFromServiceTimer.Start();
             UpdateFromServiceTimer_tick(sender, e);
-
-            DataSchedule.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
-            DataSchedule.ChartAreas[0].AxisX.ScaleView.SizeType = DateTimeIntervalType.Seconds;
-            DataSchedule.ChartAreas[0].AxisX.ScaleView.Size = graphInterval;
-            DataSchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSizeType = DateTimeIntervalType.Seconds;
-            DataSchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSize = 0.1D;
-            DataSchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollSizeType = DateTimeIntervalType.Seconds;
-            DataSchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollSize = 0.1D;
-            DataSchedule.ChartAreas[0].AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
-
-            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
-            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SizeType = DateTimeIntervalType.Seconds;
-            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.Size = graphInterval;
-            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSizeType = DateTimeIntervalType.Seconds;
-            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSize = 0.1D;
-            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollSizeType = DateTimeIntervalType.Seconds;
-            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollSize = 0.1D;
-            AnomalySchedule.ChartAreas[0].AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
         }
 
         void ResizeHandler(object sender, EventArgs e)
@@ -125,6 +115,11 @@ namespace TestGraph
                     DataSchedule.Series["Data_series"].Points.AddXY(new DateTime(p.TimeTicks).ToOADate(), p.Value);
                     AnomalySchedule.ChartAreas[0].AxisY.IsStartedFromZero = false;
                     AnomalySchedule.Series["Anomaly_series"].Points.AddXY(new DateTime(p.TimeTicks).ToOADate(), p.Anomaly);
+
+                    if ((double)p.Anomaly > AnomalySchedule.ChartAreas[0].Axes[1].Maximum)
+                    {
+                        AnomalySchedule.ChartAreas[0].Axes[1].Maximum = (double)(p.Anomaly + 10);
+                    }
                 }
 
                 if(DataSchedule.ChartAreas[0].AxisX.Maximum > DataSchedule.ChartAreas[0].AxisX.ScaleView.Size)
@@ -132,8 +127,32 @@ namespace TestGraph
                     DataSchedule.ChartAreas[0].AxisX.ScaleView.Scroll(ScrollType.Last);
                     AnomalySchedule.ChartAreas[0].AxisX.ScaleView.Scroll(ScrollType.Last);
                 }
+
                 lastTimeTick = data.Last().TimeTicks + 5;
             }
+        }
+
+        private void SetChartsSettings()
+        {
+            DataSchedule.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            DataSchedule.ChartAreas[0].AxisX.ScaleView.SizeType = DateTimeIntervalType.Seconds;
+            DataSchedule.ChartAreas[0].AxisX.ScaleView.Size = graphInterval;
+            DataSchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSizeType = DateTimeIntervalType.Seconds;
+            DataSchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSize = 0.1D;
+            DataSchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollSizeType = DateTimeIntervalType.Seconds;
+            DataSchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollSize = 0.1D;
+            DataSchedule.ChartAreas[0].AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
+
+            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SizeType = DateTimeIntervalType.Seconds;
+            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.Size = graphInterval;
+            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSizeType = DateTimeIntervalType.Seconds;
+            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollMinSize = 0.1D;
+            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollSizeType = DateTimeIntervalType.Seconds;
+            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.SmallScrollSize = 0.1D;
+            AnomalySchedule.ChartAreas[0].AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
+
+            AnomalySchedule.ChartAreas[0].Axes[1].Maximum = 150;
         }
     }
 }

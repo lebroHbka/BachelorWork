@@ -44,6 +44,9 @@
             // 
             // DataSchedule
             // 
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisY.Title = "°C";
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             chartArea1.Name = "ChartArea1";
             this.DataSchedule.ChartAreas.Add(chartArea1);
             this.DataSchedule.Location = new System.Drawing.Point(0, 0);
@@ -68,6 +71,8 @@
             // 
             // AnomalySchedule
             // 
+            chartArea2.AxisY.Title = "°C";
+            chartArea2.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             chartArea2.Name = "ChartArea1";
             this.AnomalySchedule.ChartAreas.Add(chartArea2);
             this.AnomalySchedule.Location = new System.Drawing.Point(0, 330);

@@ -47,10 +47,11 @@ namespace Sensor
     {
         static void Main(string[] args)
         {
+            var date = new DateTime(2018, 3, 22, 0, 0, 0);
             var rawData = Parser.GetRearData();
-            var dataSend = rawData.Select(u => new SensorDataPoint
+            var dataSend = rawData.Select((u, counter) => new SensorDataPoint
             {
-                TimeTicks = DateTime.Now.Ticks,
+                TimeTicks = date.AddMinutes(5 * counter).Ticks,
                 Value = u
             });
 
@@ -66,7 +67,12 @@ namespace Sensor
                         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
                         IEnumerable<SensorDataPoint> dat = new List<SensorDataPoint> { d };
+                        
                         var rez = webClient.UploadString(url, "POST", JsonConvert.SerializeObject(dat));
+                        if (!Boolean.Parse(rez))
+                        {
+                            Console.WriteLine("Send FAILS");
+                        }
                     }
                     System.Threading.Thread.Sleep(delay);
                 }

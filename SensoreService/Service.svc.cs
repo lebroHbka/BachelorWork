@@ -13,11 +13,10 @@ namespace SensorService
         static string connectionString;
         static int treeCount;
         static double samplingRatio;
-        static int shingle;
 
         object key = new object();
 
-        static string dateTimeFormat = "yyyy-MM-dd hh:mm:ss.fffffff";
+        static string dateTimeFormat = "yyyy-MM-dd HH:mm:ss.fffffff";
         static ConcurrentDictionary<int, Forest> forestDict = new ConcurrentDictionary<int, Forest>();
         static ConcurrentDictionary<int, DataMaker> dataMakerDict = new ConcurrentDictionary<int, DataMaker>();
 
@@ -27,7 +26,7 @@ namespace SensorService
             connectionString = Properties.Settings.Default.ConnectionString;
             treeCount = Properties.Settings.Default.treeCount;
             samplingRatio = Properties.Settings.Default.samplingRatio;
-            shingle = Properties.Settings.Default.shingle;
+            DataMaker.Shingle = Properties.Settings.Default.shingle;
         }
 
         public bool AddNewSensore(string id, IEnumerable<decimal> feedData)
