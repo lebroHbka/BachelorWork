@@ -6,6 +6,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Newtonsoft.Json;
 using System.Net;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace TestGraph
 {
@@ -97,6 +98,7 @@ namespace TestGraph
             }
         }
 
+
         private void UpdateFromServiceTimer_tick(object sender, EventArgs e)
         {
             var url = ConfigurationManager.AppSettings.GetValues("ServiceUrl")[0] + $"1?aftertime={lastTimeTick}";
@@ -153,6 +155,16 @@ namespace TestGraph
             AnomalySchedule.ChartAreas[0].AxisX.ScrollBar.ButtonStyle = ScrollBarButtonStyles.SmallScroll;
 
             AnomalySchedule.ChartAreas[0].Axes[1].Maximum = 150;
+        }
+
+        private void DataSchedule_AxisViewChanging(object sender, ViewEventArgs e)
+        {
+            AnomalySchedule.ChartAreas[0].AxisX.ScaleView.Position = e.NewPosition;
+        }
+
+        private void AnomalySchedule_AxisViewChanging(object sender, ViewEventArgs e)
+        {
+            DataSchedule.ChartAreas[0].AxisX.ScaleView.Position = e.NewPosition;
         }
     }
 }

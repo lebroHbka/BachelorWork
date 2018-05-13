@@ -68,6 +68,7 @@
             title1.Name = "Title";
             title1.Text = "Data";
             this.DataSchedule.Titles.Add(title1);
+            this.DataSchedule.AxisViewChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ViewEventArgs>(this.DataSchedule_AxisViewChanging);
             // 
             // AnomalySchedule
             // 
@@ -93,6 +94,7 @@
             title2.Name = "Anomaly";
             title2.Text = "Anomaly";
             this.AnomalySchedule.Titles.Add(title2);
+            this.AnomalySchedule.AxisViewChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ViewEventArgs>(this.AnomalySchedule_AxisViewChanging);
             // 
             // UpdateFromServiceTimer
             // 
