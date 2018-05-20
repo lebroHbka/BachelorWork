@@ -66,13 +66,13 @@
             title1.BackImageWrapMode = System.Windows.Forms.DataVisualization.Charting.ChartImageWrapMode.Unscaled;
             title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             title1.Name = "Title";
-            title1.Text = "Data";
+            title1.Text = "Temperature";
             this.DataSchedule.Titles.Add(title1);
             this.DataSchedule.AxisViewChanging += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ViewEventArgs>(this.DataSchedule_AxisViewChanging);
             // 
             // AnomalySchedule
             // 
-            chartArea2.AxisY.Title = "°C";
+            chartArea2.AxisY.Title = "Score";
             chartArea2.AxisY.TitleFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             chartArea2.Name = "ChartArea1";
             this.AnomalySchedule.ChartAreas.Add(chartArea2);
